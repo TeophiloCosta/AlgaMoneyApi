@@ -70,10 +70,16 @@ public class PessoaResource {
 		pessoaRepository.deleteById(codigo);
 	}
 	
-	@PutMapping("{/codigo}")
+	@PutMapping("/{codigo}")
 	public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa){
 		Pessoa pessoaSalva = pessoaService.atualizar(codigo, pessoa);
 		return ResponseEntity.ok(pessoaSalva);
+	}
+	
+	@PutMapping("/{codigo/ativo}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
+		pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
 	}
 	
 }
