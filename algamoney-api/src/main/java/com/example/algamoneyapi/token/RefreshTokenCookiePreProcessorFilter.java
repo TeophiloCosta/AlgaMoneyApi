@@ -28,8 +28,10 @@ public class RefreshTokenCookiePreProcessorFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		if ("/oauth/token".equalsIgnoreCase(req.getRequestURI()) && "refresh_token".equals(req.getParameter("grant_type")) && req.getCookies() != null) {
+			
 			for (Cookie cookie : req.getCookies()) {
-				if (cookie.getName().equals("refresh_token")) {
+				
+				if (cookie.getName().equals("refreshToken")) {
 					String refreshToken = cookie.getValue();
 					req = new MyServletRequestWrapper(req, refreshToken);
 				}
@@ -50,9 +52,11 @@ public class RefreshTokenCookiePreProcessorFilter implements Filter {
 		
 		@Override
 		public Map<String, String[]> getParameterMap() {
+			
 			ParameterMap<String, String[]> map = new ParameterMap<>(getRequest().getParameterMap());
-			map.put("refreshToken", new String[] {refreshToken});
+			map.put("refresh_token", new String[] {refreshToken});
 			map.setLocked(true);
+			
 			return map;
 		}
 	}
